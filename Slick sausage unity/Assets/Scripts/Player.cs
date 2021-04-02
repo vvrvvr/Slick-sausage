@@ -4,19 +4,30 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private Rigidbody targetRb;
-    [SerializeField] float jumpForce;
-    void Start()
+    [HideInInspector] public Rigidbody rb;
+    [HideInInspector] public SphereCollider col;
+    [HideInInspector] Vector3 pos { get { return transform.position; } }
+
+    void Awake()
     {
-       
+        rb = GetComponent<Rigidbody>();
+        col = GetComponent<SphereCollider>();
     }
 
-    
-    void Update()
+    public void Push(Vector3 force)
     {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            targetRb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
-        }
+        rb.AddForce(force, ForceMode.Impulse);
+    }
+
+    public void ActivateRb()
+    {
+        rb.isKinematic = false;
+    }
+
+    public void DeactivateRb()
+    {
+        rb.velocity = Vector3.zero;
+        rb.angularVelocity = Vector3.zero;
+        rb.isKinematic = true;
     }
 }
