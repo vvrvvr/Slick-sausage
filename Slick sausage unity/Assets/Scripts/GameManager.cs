@@ -42,26 +42,29 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
-        {
-            isDragging = true;
-            OnDragStart();
-           
-        }
-        if (Input.GetMouseButtonUp(0))
-        {
-            isDragging = false;
-            OnDragEnd();
-        }
-        if (isDragging)
-        {
-            OnDrag();
-        }
+        //if (player.isGrounded)
+        //{
+            if (Input.GetMouseButtonDown(0))
+            {
+                isDragging = true;
+                OnDragStart();
+
+            }
+            if (Input.GetMouseButtonUp(0))
+            {
+                isDragging = false;
+                OnDragEnd();
+            }
+            if (isDragging)
+            {
+                OnDrag();
+            }
+        //}
     }
 
     private void OnDragStart()
     {
-        player.DeactivateRb();
+        //player.DeactivateRb();
         Vector3 mousepos = Input.mousePosition;
         mousepos.z = 10;
         startPoint = cam.ScreenToWorldPoint(mousepos);
@@ -76,13 +79,13 @@ public class GameManager : MonoBehaviour
         dragPoint.position = endPoint;
         distance = Vector3.Distance(startpoint.localPosition, dragPoint.localPosition);
         direction = (startpoint.localPosition - dragPoint.localPosition).normalized;
-        force = direction * distance * pushForce;
+        force = direction * (distance/6) * pushForce;
         trajectory.UpdateDots(player.pos, force);
     }
 
     private void OnDragEnd()
     {
-        player.ActivateRb();
+        //player.ActivateRb();
         player.Push(force); 
         dragPoint.position = Vector3.zero;
         startpoint.position = Vector3.zero;
