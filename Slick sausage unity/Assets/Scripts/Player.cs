@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public SphereCollider col;
-    [HideInInspector] Vector3 pos { get { return transform.position; } }
+    [HideInInspector] public Vector3 pos { get { return transform.position; } }
 
     void Awake()
     {

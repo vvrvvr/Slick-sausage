@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
 
     private Camera cam;
     private bool isDragging;
+    [SerializeField] private Trajectory trajectory;
     [SerializeField] private Player player;
     [SerializeField] private float pushForce = 4f;
     [SerializeField] private LayerMask colliderPlaneLayer;
@@ -45,6 +46,7 @@ public class GameManager : MonoBehaviour
         {
             isDragging = true;
             OnDragStart();
+           
         }
         if (Input.GetMouseButtonUp(0))
         {
@@ -64,6 +66,7 @@ public class GameManager : MonoBehaviour
         mousepos.z = 10;
         startPoint = cam.ScreenToWorldPoint(mousepos);
         startpoint.position = startPoint;
+        trajectory.Show();
     }
     private void OnDrag()
     {
@@ -73,7 +76,8 @@ public class GameManager : MonoBehaviour
         dragPoint.position = endPoint;
         distance = Vector3.Distance(startpoint.localPosition, dragPoint.localPosition);
         direction = (startpoint.localPosition - dragPoint.localPosition).normalized;
-        force = direction * distance * pushForce; 
+        force = direction * distance * pushForce;
+        trajectory.UpdateDots(player.pos, force);
     }
 
     private void OnDragEnd()
@@ -82,5 +86,6 @@ public class GameManager : MonoBehaviour
         player.Push(force); 
         dragPoint.position = Vector3.zero;
         startpoint.position = Vector3.zero;
+        trajectory.Hide();
     }
 }
