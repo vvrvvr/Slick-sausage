@@ -60,6 +60,14 @@ public class Player : MonoBehaviour
             rend.material = onAirMaterial;
     }
 
+    private void OnCollisionStay(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("ground"))
+        {
+            isGrounded = true;
+        }
+    }
+
     public void FinishGame()
     {
         StartCoroutine(EndgameActivity());

@@ -143,9 +143,10 @@ public class GameManager : MonoBehaviour
     private IEnumerator EndgameActivity()
     {
         yield return new WaitForSeconds(1f);
-        Time.timeScale = 0f;
         pauseButton.SetActive(false);
         winScreen.SetActive(true);
+        Time.timeScale = 0f;
+        
 
     }
 }
