@@ -61,4 +61,9 @@ public class Player : MonoBehaviour
         //    rend.material = onAirMaterial;
     }
 
+    public void FinishGame()
+    {
+
+    }
+
 }
