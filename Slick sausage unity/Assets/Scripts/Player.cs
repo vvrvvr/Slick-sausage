@@ -7,6 +7,8 @@ public class Player : MonoBehaviour
     [HideInInspector] public Rigidbody rb;
     [HideInInspector] public SphereCollider col;
     [HideInInspector] public bool isGrounded;
+    [HideInInspector] public bool HasControl;
+
     [SerializeField] private Material onGroundMaterial;
     [SerializeField] private Material onAirMaterial;
     [SerializeField] private SkinnedMeshRenderer rend;
@@ -17,7 +19,7 @@ public class Player : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<SphereCollider>();
-
+        HasControl = true;
     }
 
     private void Update()
@@ -60,7 +62,13 @@ public class Player : MonoBehaviour
 
     public void FinishGame()
     {
-
+        StartCoroutine(EndgameActivity());
     }
 
+    private IEnumerator EndgameActivity()
+    {
+        yield return new WaitForSeconds(0.5f);
+        ActivateRb();
+        HasControl = false; 
+    }
 }

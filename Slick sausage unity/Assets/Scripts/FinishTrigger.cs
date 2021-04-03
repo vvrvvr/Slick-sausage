@@ -7,14 +7,16 @@ public class FinishTrigger : MonoBehaviour
     [SerializeField] private GameObject player;
     [SerializeField] private Transform center;
     [SerializeField] private ParticleSystem particle;
+    private bool isActive;
 
     private void OnTriggerEnter(Collider other)
     {
-        if( other.gameObject == player )
+        if( other.gameObject == player && !isActive)
         {
             player.GetComponent<Player>().FinishGame();
-            /// gamemanager finish staff
+            GameManager.Instance.WinGame();
             Instantiate(particle, center.position, Quaternion.identity);
+            isActive = true;
         }
     }
 }
