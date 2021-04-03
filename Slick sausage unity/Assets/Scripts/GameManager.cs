@@ -26,6 +26,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private LayerMask colliderPlaneLayer;
     public Transform startpoint;
     public Transform dragPoint;
+    private bool isPressedDuringOnGround;
 
     //vectors
     private Vector3 startPoint;
@@ -42,10 +43,11 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
-        //if (player.isGrounded)
-        //{
+        if (player.isGrounded)
+        {
             if (Input.GetMouseButtonDown(0))
             {
+                isPressedDuringOnGround = true;
                 isDragging = true;
                 OnDragStart();
 
@@ -59,7 +61,12 @@ public class GameManager : MonoBehaviour
             {
                 OnDrag();
             }
-        //}
+        }
+        else
+        {
+            isPressedDuringOnGround = false;
+            trajectory.Hide();
+        }
     }
 
     private void OnDragStart()
@@ -79,14 +86,15 @@ public class GameManager : MonoBehaviour
         dragPoint.position = endPoint;
         distance = Vector3.Distance(startpoint.localPosition, dragPoint.localPosition);
         direction = (startpoint.localPosition - dragPoint.localPosition).normalized;
-        force = direction * (distance/6) * pushForce;
+        force = direction * (distance / 6) * pushForce;
         trajectory.UpdateDots(player.pos, force);
     }
 
     private void OnDragEnd()
     {
         //player.ActivateRb();
-        player.Push(force); 
+        if(isPressedDuringOnGround)
+            player.Push(force);
         dragPoint.position = Vector3.zero;
         startpoint.position = Vector3.zero;
         trajectory.Hide();

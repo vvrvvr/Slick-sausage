@@ -10,12 +10,27 @@ public class Player : MonoBehaviour
     [SerializeField] private Material onGroundMaterial;
     [SerializeField] private Material onAirMaterial;
     [SerializeField] private SkinnedMeshRenderer rend;
+    [SerializeField] private CheckGround[] components = new CheckGround[5];
     [HideInInspector] public Vector3 pos { get { return transform.position; } }
 
     void Awake()
     {
         rb = GetComponent<Rigidbody>();
         col = GetComponent<SphereCollider>();
+
+    }
+
+    private void Update()
+    {
+        foreach (CheckGround comp in components)
+        {
+            if (comp.CheckComponentGround())
+            {
+                isGrounded = true;
+                break;
+            }
+            isGrounded = false;
+        }
         Changecolor(isGrounded);
     }
 
@@ -35,30 +50,12 @@ public class Player : MonoBehaviour
         rb.angularVelocity = Vector3.zero;
         rb.isKinematic = true;
     }
-
-    private void OnCollisionEnter(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("ground"))
-        {
-            isGrounded = true;
-            Changecolor(isGrounded);
-        }
-    }
-    private void OnCollisionExit(Collision collision)
-    {
-        if (collision.gameObject.CompareTag("ground"))
-        {
-            isGrounded = false;
-            Changecolor(isGrounded);
-        }
-    }
-
     private void Changecolor(bool grounded)
     {
-        //if(grounded)
-        //    rend.material = onGroundMaterial;
-        //else
-        //    rend.material = onAirMaterial;
+        if (grounded)
+            rend.material = onGroundMaterial;
+        else
+            rend.material = onAirMaterial;
     }
 
     public void FinishGame()
