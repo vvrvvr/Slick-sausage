@@ -55,10 +55,10 @@ public class Player : MonoBehaviour
 
     private void Changecolor(bool grounded)
     {
-        if(grounded)
-            rend.material = onGroundMaterial;
-        else
-            rend.material = onAirMaterial;
+        //if(grounded)
+        //    rend.material = onGroundMaterial;
+        //else
+        //    rend.material = onAirMaterial;
     }
 
 }
